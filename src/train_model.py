@@ -5,14 +5,18 @@ from consumer_env import ConsumerEnv
 
 
 def generate_synthetic_data(num_samples=10000):
-    """Genera dataset sintético para validación"""
     states = np.random.uniform(0, 1, (num_samples, 10))
     actions = np.random.uniform(-1, 1, (num_samples, 4))
-    rewards = np.sum(states[:, :4] * actions, axis=1) - 0.1 * np.sum(np.abs(actions), axis=1)
-    acceptances = np.clip(np.sum(states, axis=1) + rewards, 0, 100)
+    
+    # FÓRMULA CORREGIDA
+    factor_match = np.sum(states[:, :4] * (actions + 1) / 2, axis=1)
+    cost_penalty = np.sum(np.abs(actions), axis=1) * 0.05
+    rewards = factor_match - cost_penalty
+    acceptances = np.clip(20 + rewards * 70, 20, 90)  # 20-90%
+    
     data = {'states': states, 'actions': actions, 'rewards': rewards, 'acceptances': acceptances}
-    np.save('data/synthetic_data.npy', data)
-    print(f"✅ Dataset sintético generado: {num_samples} muestras guardadas en data/synthetic_data.npy")
+    np.save('data/synthetic_data_v2.npy', data)
+    print(f"Dataset V2 generado: Aceptación promedio {acceptances.mean():.1f}%")
 
 def train_ppo():
     """Entrena el modelo PPO"""

@@ -17,11 +17,15 @@ class ConsumerEnv(gym.Env):
         return self.current_state, {}
 
     def step(self, action):
-        # Calcula recompensa: suma ponderada de coincidencias
-        reward = np.sum(self.current_state[:4] * action) - np.abs(np.sum(action)) * 0.1  # Penaliza overuse
-        # Nueva aceptación (simulada)
-        acceptance = np.clip(np.sum(self.current_state) + reward, 0, 100)
-        done = False  # No termina hasta fin de episodios
+        # FÓRMULA CORREGIDA: Recompensas más realistas (20-90%)
+        factor_match = np.sum(self.current_state[:4] * (action + 1) / 2)  # [0,2] → [0,1]
+        cost_penalty = np.sum(np.abs(action)) * 0.05  # Penalización suave
+        reward = factor_match - cost_penalty  # Rango: 0.2 a 0.9
+        
+        # Aceptación: 20-90%
+        acceptance = np.clip(20 + reward * 70, 20, 90)
+        
+        done = False
         truncated = False
         return self.current_state, reward, done, truncated, {"acceptance": acceptance}
 

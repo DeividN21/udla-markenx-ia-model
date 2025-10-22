@@ -1,7 +1,7 @@
 import numpy as np
 
 # Cargar y mostrar datos
-data = np.load('data/synthetic_data.npy', allow_pickle=True).item()
+data = np.load('data/synthetic_data_v2.npy', allow_pickle=True).item()
 
 print("\n  RESUMEN DEL DATASET SINTÉTICO")
 print(f"   Total de muestras: {len(data['states'])}")
