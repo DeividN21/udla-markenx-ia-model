@@ -3,7 +3,7 @@ import numpy as np
 # Cargar y mostrar datos
 data = np.load('data/synthetic_data.npy', allow_pickle=True).item()
 
-print("    RESUMEN DEL DATASET SINTÉTICO")
+print("\n  RESUMEN DEL DATASET SINTÉTICO")
 print(f"   Total de muestras: {len(data['states'])}")
 print(f"   Forma de estados: {data['states'].shape}")
 print(f"   Aceptación promedio: {data['acceptances'].mean():.2f}%")
