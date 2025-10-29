@@ -57,7 +57,7 @@ class ConsumerEnv(gym.Env):
                          'Country': ['Ecuador', 'Rusia'], 'Lifestyle': ['Traditional', 'Modern', 'TechSavvy']}
         )
 
-        # Agrega CPTs para otros nodos (similares; expande según necesitas)
+        # Agrega CPTs para otros nodos
         bn.add_cpds(cpt_acceptance, cpt_cultural) 
         bn.check_model()  # Verifica validez
         return bn
